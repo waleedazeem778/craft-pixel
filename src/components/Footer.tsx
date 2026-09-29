@@ -122,13 +122,14 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => setCurrentView('admin')} 
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
+                <a 
+                  href="https://wa.me/?text=Hi%20PixelCraft%2C%20I%20have%20a%20creative%20project%20inquiry."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cyan-400 transition-colors"
                 >
-                  <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Admin Portal</span>
-                </button>
+                  Client VIP Support
+                </a>
               </li>
             </ul>
           </div>
@@ -162,12 +163,7 @@ export const Footer: React.FC = () => {
             <span>•</span>
             <span>Zero Payment Gateway Friction</span>
             <span>•</span>
-            <button 
-              onClick={() => setCurrentView('admin')} 
-              className="text-slate-400 hover:text-cyan-400 transition-colors underline"
-            >
-              Studio Staff Login
-            </button>
+            <span>Fast Turnaround Delivery</span>
           </div>
         </div>
 

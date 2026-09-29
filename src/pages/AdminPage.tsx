@@ -280,7 +280,13 @@ export const AdminPage: React.FC = () => {
   // If not logged in as Admin, show login screen
   if (!isAdminLoggedIn) {
     return (
-      <div className="py-20 max-w-md mx-auto px-4 sm:px-6">
+      <div className="py-16 max-w-md mx-auto px-4 sm:px-6">
+        <button
+          onClick={() => setCurrentView('home')}
+          className="mb-4 inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
+        >
+          ← Return to Customer Website
+        </button>
         <div className="p-8 rounded-3xl bg-[#0c0e18] border border-slate-800/80 shadow-2xl space-y-6">
           
           <div className="text-center space-y-2">

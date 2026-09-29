@@ -185,7 +185,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Scroll to top on view change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (currentView === 'admin') {
+      if (window.location.hash !== '#admin') {
+        window.history.replaceState(null, '', '#admin');
+      }
+    } else if (window.location.hash === '#admin') {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
   }, [currentView, selectedServiceId]);
+
+  // Handle URL hash (#admin), search (?admin=true), and keyboard shortcut (Alt+A or Ctrl+Shift+A) for admin access
+  useEffect(() => {
+    const checkAdminTrigger = () => {
+      if (window.location.hash === '#admin' || window.location.search.includes('admin=true')) {
+        setCurrentView('admin');
+      }
+    };
+    checkAdminTrigger();
+    window.addEventListener('hashchange', checkAdminTrigger);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.altKey && e.key.toLowerCase() === 'a') || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a')) {
+        e.preventDefault();
+        setCurrentView((prev) => (prev === 'admin' ? 'home' : 'admin'));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('hashchange', checkAdminTrigger);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // --- Navigation helper ---
   const navigateToServiceDetail = (serviceId: string) => {

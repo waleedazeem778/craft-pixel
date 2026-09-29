@@ -162,21 +162,17 @@ export const Navbar: React.FC = () => {
             )}
           </button>
 
-          {/* Admin Portal Button */}
-          <button
-            onClick={() => handleNav('admin')}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border transition-all ${
-              isAdminLoggedIn
-                ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/40'
-                : currentView === 'admin'
-                ? 'bg-cyan-950/50 border-cyan-500 text-cyan-300'
-                : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-            }`}
-            title={isAdminLoggedIn ? `Logged in as ${adminUser?.name}` : 'Admin Portal Access'}
-          >
-            <ShieldCheck className={`w-3.5 h-3.5 ${isAdminLoggedIn ? 'text-emerald-400' : 'text-cyan-400'}`} />
-            <span>{isAdminLoggedIn ? 'Admin Panel' : 'Admin'}</span>
-          </button>
+          {/* Admin Portal Button - Only visible to authenticated studio staff */}
+          {isAdminLoggedIn && (
+            <button
+              onClick={() => handleNav('admin')}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border bg-emerald-950/60 border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/40 transition-all"
+              title={`Logged in as ${adminUser?.name}`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Staff Panel</span>
+            </button>
+          )}
 
           {/* Direct WhatsApp CTA */}
           <a
@@ -258,16 +254,18 @@ export const Navbar: React.FC = () => {
             <span className="font-mono text-cyan-400 font-bold">${cartTotal}</span>
           </button>
 
-          <button
-            onClick={() => handleNav('admin')}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold text-left text-slate-300 bg-slate-900/50 border border-slate-800"
-          >
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>{isAdminLoggedIn ? 'Admin Dashboard (Logged In)' : 'Admin Portal Login'}</span>
-            </div>
-            <ArrowRight className="w-4 h-4 text-slate-500" />
-          </button>
+          {isAdminLoggedIn && (
+            <button
+              onClick={() => handleNav('admin')}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold text-left text-emerald-300 bg-emerald-950/40 border border-emerald-800"
+            >
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Staff Dashboard (Logged In)</span>
+              </div>
+              <ArrowRight className="w-4 h-4 text-emerald-500" />
+            </button>
+          )}
 
           <a
             href="https://wa.me/?text=Hi%20PixelCraft%2C%20I%20would%20like%20to%20discuss%20a%20project."
