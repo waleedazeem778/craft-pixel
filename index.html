@@ -13,17 +13,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script>
+      // Ensure trailing slash on GitHub Pages so relative paths like ./assets/... resolve correctly
       (function() {
-        // If loaded as uncompiled source on GitHub Pages, auto-redirect to pre-built dist/ folder
-        window.addEventListener('DOMContentLoaded', function() {
-          var isGitHub = window.location.hostname.indexOf('github.io') !== -1;
-          var hasUncompiledSource = !!document.querySelector('script[src*="main.tsx"]');
-          if (isGitHub && hasUncompiledSource && window.location.pathname.indexOf('/dist') === -1) {
-            var p = window.location.pathname;
-            if (!p.endsWith('/')) p += '/';
-            window.location.replace(p + 'dist/' + window.location.search + window.location.hash);
+        if (window.location.hostname.indexOf('github.io') !== -1) {
+          var p = window.location.pathname;
+          if (!p.endsWith('/') && !p.split('/').pop().includes('.')) {
+            window.location.replace(p + '/' + window.location.search + window.location.hash);
           }
-        });
+        }
       })();
     </script>
   </head>
@@ -40,6 +37,28 @@
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fallback: If uncompiled main.tsx fails on static hosts like GitHub Pages, load pre-bundled assets
+      window.addEventListener('error', function(e) {
+        if (e.target && e.target.src && e.target.src.indexOf('main.tsx') !== -1) {
+          if (!document.getElementById('pixelcraft-bundle-js')) {
+            var s = document.createElement('script');
+            s.id = 'pixelcraft-bundle-js';
+            s.type = 'module';
+            s.crossOrigin = 'anonymous';
+            s.src = './assets/index.js';
+            document.body.appendChild(s);
+
+            var l = document.createElement('link');
+            l.id = 'pixelcraft-bundle-css';
+            l.rel = 'stylesheet';
+            l.crossOrigin = 'anonymous';
+            l.href = './assets/index.css';
+            document.head.appendChild(l);
+          }
+        }
+      }, true);
+    </script>
   </body>
 </html>
 
